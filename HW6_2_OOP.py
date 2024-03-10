@@ -9,14 +9,26 @@ import random as rnd
 class Fluid():
     #region constructor
     def __init__(self, mu=0.00089, rho=1000):
-        '''
-        default properties are for water
-        :param mu: dynamic viscosity in Pa*s -> (kg*m/s^2)*(s/m^2) -> kg/(m*s)
-        :param rho: density in kg/m^3
-        '''
-        self.mu= # $JES MISSING CODE$  # simply make a copy of the value in the argument as a class property
-        self.rho= # $JES MISSING CODE$  # simply make a copy of the value in the argument as a class property
-        self.nu= #JES MISSING CODE$ # calculate the kinematic viscosity in units of m^2/s
+        """
+        Initialize the Fluid object with default properties for water.
+
+        Parameters:
+        mu (float): Dynamic viscosity of the fluid in Pa·s (kg/(m·s)).
+                    Default value for water at approximately 20 degrees Celsius.
+        rho (float): Density of the fluid in kg/m^3. Default value for water
+                     at approximately 4 degrees Celsius (maximum density).
+
+        The kinematic viscosity (nu) is calculated by dividing the dynamic
+        viscosity (mu) by the density (rho), as per the formula nu = mu / rho.
+
+        Attributes:
+        mu (float): Dynamic viscosity of the fluid.
+        rho (float): Density of the fluid.
+        nu (float): Kinematic viscosity of the fluid, derived from mu and rho.
+        """
+        self.mu = mu    # Dynamic viscosity
+        self.rho = rho  # Density of the fluid
+        self.nu = self.mu / self.rho  # Kinematic viscosity
     #endregion
 class Node():
     #region constructor
@@ -75,48 +87,70 @@ class Loop():
     #endregion
 class Pipe():
     #region constructor
-    def __init__(self, Start='A', End='B',L=100, D=200, r=0.00025, fluid=Fluid()):
-        '''
-        Defines a generic pipe with orientation from lowest letter to highest, alphabetically.
-        :param Start: the start node (string)
-        :param End: the end node (string)
-        :param L: the pipe length in m (float)
-        :param D: the pipe diameter in mm (float)
-        :param r: the pipe roughness in m  (float)
-        :param fluid:  a Fluid object (typically water)
-        '''
-        # from arguments given in constructor
-        self.startNode=min(Start,End) #makes sure to use the lowest letter for startNode
-        self.endNode=max(Start,End) #makes sure to use the highest letter for the endNode
-        self.length=L
-        self.r=r
-        self.fluid=fluid #the fluid in the pipe
+    def __init__(self, Start='A', End='B', L=100, D=200, r=0.00025, fluid=Fluid()):
+        """
+        Initializes a Pipe object representing a segment of a pipe network.
 
-        # other calculated properties
-        self.d=D/1000.0 #diameter in m
-        self.relrough = self.r/self.d #calculate relative roughness for easy use later
-        self.A=math.pi/4.0*self.d**2 #calculate pipe cross sectional area for easy use later
-        self.Q=10 #working in units of L/s, just an initial guess
-        self.vel=self.V()  #calculate the initial velocity of the fluid
-        self.reynolds=self.Re() #calculate the initial reynolds number
-    #endregion
+        Parameters:
+        Start (str): The starting node (identifier) of the pipe.
+        End (str): The ending node (identifier) of the pipe.
+        L (float): The length of the pipe in meters.
+        D (float): The inner diameter of the pipe in millimeters.
+        r (float): The roughness of the pipe's inner surface in meters.
+        fluid (Fluid): The fluid object representing the fluid within the pipe.
 
-    #region methods/functions
-    def V(self):
-        '''
-        Calculate average velocity in the pipe for volumetric flow self.Q
-        :return:the average velocity in m/s
-        '''
-        self.vel= #$JES MISSING CODE$  # the average velocity is Q/A (be mindful of units)
-        return self.vel
+        The pipe's properties, such as its diameter in meters, area, relative roughness,
+        initial volumetric flow rate (Q), velocity (vel), and Reynolds number (Re),
+        are calculated upon initialization.
 
-    def Re(self):
-        '''
-        Calculate the reynolds number under current conditions.
-        :return:
-        '''
-        self.reynolds= #$JES MISSING CODE$ # Re=rho*V*d/mu, be sure to use V() so velocity is updated.
-        return self.reynolds
+        Attributes:
+        startNode (str): The identifier for the start node, ensuring it's the minimum of Start and End.
+        endNode (str): The identifier for the end node, ensuring it's the maximum of Start and End.
+        length (float): Length of the pipe in meters.
+        diameter (float): Inner diameter of the pipe in meters.
+        area (float): Cross-sectional area of the pipe in square meters.
+        relativeRoughness (float): The relative roughness of the pipe.
+        volumetricFlowRate (float): Initial guess for the pipe's volumetric flow rate in L/s.
+        velocity (float): Fluid velocity within the pipe in m/s.
+        reynoldsNumber (float): Reynolds number for flow within the pipe.
+        roughness (float): Roughness of the pipe's inner surface in meters.
+        fluid (Fluid): The fluid flowing through the pipe.
+        """
+        self.startNode = min(Start, End)  # Alphabetically lower label is startNode
+        self.endNode = max(Start, End)  # Alphabetically higher label is endNode
+        self.length = L
+        self.diameter = D / 1000.0  # Convert diameter from mm to m
+        self.roughness = r
+        self.fluid = fluid  # Fluid object representing the fluid in the pipe
+
+        # Additional properties
+        self.area = math.pi * (self.diameter / 2) ** 2  # Cross-sectional area of the pipe
+        self.relativeRoughness = self.roughness / self.diameter  # Relative roughness
+        self.volumetricFlowRate = 10  # Initial guess for flow rate in L/s (to be solved)
+        self.velocity = self.volumetricFlowRate / (1000 * self.area)  # Velocity, Q = A * v, Q in L/s needs conversion
+        self.reynoldsNumber = self.calculate_reynolds_number()  # Reynolds number for flow within the pipe
+
+    def calculate_velocity(self):
+        """
+        Calculate the fluid velocity based on the volumetric flow rate and pipe's cross-sectional area.
+
+        Returns:
+        float: The velocity of fluid in the pipe in m/s.
+        """
+        self.velocity = self.volumetricFlowRate / (
+                    1000 * self.area)  # Convert flow rate from L/s to m^3/s for calculation
+        return self.velocity
+
+    def calculate_reynolds_number(self):
+        """
+        Calculate the Reynolds number for the fluid flow based on the velocity, pipe diameter, and fluid properties.
+
+        Returns:
+        float: The Reynolds number.
+        """
+        self.reynoldsNumber = (self.fluid.rho * self.velocity * self.diameter) / self.fluid.mu
+        return self.reynoldsNumber
+
 
     def FrictionFactor(self):
         """
@@ -202,62 +236,99 @@ class Pipe():
 class PipeNetwork():
     #region constructor
     def __init__(self, Pipes=[], Loops=[], Nodes=[], fluid=Fluid()):
-        '''
-        The pipe network is built from pipe, node, loop, and fluid objects.
-        :param Pipes: a list of pipe objects
-        :param Loops: a list of loop objects
-        :param Nodes: a list of node objects
-        :param fluid: a fluid object
-        '''
-        self.loops=Loops
-        self.nodes=Nodes
-        self.Fluid=fluid
-        self.pipes=Pipes
-    #endregion
+        """
+        Initialize the PipeNetwork object that represents the entire pipe network.
 
-    #region methods/functions
+        The network is composed of a collection of pipes, nodes, and loops that
+        are interrelated. This class facilitates the analysis of the pipe network
+        by providing methods to find flow rates in pipes given constraints of mass
+        conservation at nodes and zero net pressure drops in the loops.
+
+        Parameters:
+        Pipes (list of Pipe objects): A list of all the pipe segments in the network.
+        Loops (list of Loop objects): A list of loops in the network, each loop is
+                                      a closed path of pipe segments.
+        Nodes (list of Node objects): A list of nodes in the network where pipes connect.
+        fluid (Fluid object): The fluid that flows through the pipe network.
+
+        Attributes:
+        loops (list of Loop objects): Loops within the pipe network.
+        nodes (list of Node objects): Nodes within the pipe network.
+        pipes (list of Pipe objects): Pipes within the pipe network.
+        Fluid (Fluid object): The fluid within the pipe network.
+        """
+        self.loops = Loops
+        self.nodes = Nodes
+        self.pipes = Pipes
+        self.Fluid = fluid
+
     def findFlowRates(self):
-        '''
-        a method to analyze the pipe network and find the flow rates in each pipe
-        given the constraints of: i) no net flow into a node and ii) no net pressure drops in the loops.
-        :return: a list of flow rates in the pipes
-        '''
-        #see how many nodes and loops there are, this is how many equation results I will return
-        N=len(self.nodes)+len(self.loops)
-        # build an initial guess for flow rates in the pipes.
-        # note that I only have 10 pipes, but need 11 variables because of the degenerate node equation at b.
-        Q0=np.full(N,10)
+        """
+        Analyzes the pipe network to find the flow rates in each pipe segment.
+
+        This method leverages the fsolve function from scipy.optimize to solve the
+        non-linear equations that arise from the conservation of mass at nodes and
+        the zero net pressure drop requirement in loops.
+
+        Returns:
+        numpy.ndarray: An array of the solved flow rates for each pipe in the network.
+        """
+        # The number of equations is equal to the number of nodes plus the number of loops
+        N = len(self.nodes) + len(self.loops)
+        # Initial guess for the flow rates in the pipes (L/s)
+        Q0 = np.full(N, 10)
+
         def fn(q):
             """
-            This is used as a callback for fsolve.  The mass continuity equations at the nodes and the loop equations
-            are functions of the flow rates in the pipes.  Hence, fsolve will search for the roots of these equations
-            by varying the flow rates in each pipe.
-            :param q: an array of flowrates in the pipes + 1 extra value b/c of node b
-            :return: L an array containing flow rates at the nodes and  pressure losses for the loops
+            The callback function for fsolve that represents the system of equations
+            to be solved. The equations are based on mass conservation at nodes and
+            pressure loss in loops.
+
+            Parameters:
+            q (numpy.ndarray): An array of guessed flow rates for the pipes.
+
+            Returns:
+            numpy.ndarray: An array containing the mass conservation at each node
+                           and pressure losses for each loop.
             """
-            #update the flow rate in each pipe object
-            for i in range(len(self.pipes)):
-                self.pipes[i].Q= #$JES MISSING CODE$  # set volumetric flow rate from input argument q
-            #calculate the net flow rate for the node objects
-            # note:  when flow rates in pipes are correct, the net flow into each node should be zero.
-            L= #$JES MISSING CODE$  # call the getNodeFlowRates function of this class
-            #calculate the net head loss for the loop objects
-            # note: when the flow rates in pipes are correct, the net head loss for each loop should be zero.
-            L+= #$JES MISSING CODE$  # call the getLoopHeadLosses function of this class
-            return L
-        #using fsolve to find the flow rates
-        FR=fsolve(fn,Q0)
-        return FR
+            # Update the flow rate in each pipe object with the current guess
+            for i, pipe in enumerate(self.pipes):
+                pipe.Q = q[i]
+
+            # Calculate the net flow rates at the nodes
+            qNet = self.getNodeFlowRates()
+            # Calculate the net head loss for the loops
+            lhl = self.getLoopHeadLosses()
+            # Concatenate the flow rates and head loss to form the system of equations
+            return np.concatenate((qNet, lhl))
+
+        # Use fsolve to find the flow rates that satisfy all equations
+        flow_rates = fsolve(fn, Q0)
+        return flow_rates
 
     def getNodeFlowRates(self):
-        #each node object is responsible for calculating its own net flow rate
-        qNet=[n.getNetFlowRate() for n in self.nodes]
-        return qNet
+        """
+        Calculates the net flow rate at each node in the pipe network.
+
+        The net flow rate at a node is the sum of the flow rates in pipes going into
+        and out of the node. This should be zero for mass conservation.
+
+        Returns:
+        list: A list of net flow rates for each node, ideally all zeroes.
+        """
+        return [node.getNetFlowRate() for node in self.nodes]
 
     def getLoopHeadLosses(self):
-        #each loop object is responsible for calculating its own net head loss
-        lhl=[l.getLoopHeadLoss() for l in self.loops]
-        return lhl
+        """
+        Calculates the net head loss around each loop in the pipe network.
+
+        According to the principle of energy conservation in a loop, the sum of
+        head losses and gains around any closed loop should be zero.
+
+        Returns:
+        list: A list of net head losses for each loop, ideally all zeroes.
+        """
+        return [loop.getLoopHeadLoss() for loop in self.loops]
 
     def getPipe(self, name):
         #returns a pipe object by its name
