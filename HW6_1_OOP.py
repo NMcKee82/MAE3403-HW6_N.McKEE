@@ -218,9 +218,12 @@ class Resistor():
         :param i: current in amps
         :param name: name of resistor by alphabetically ordered pair of node names
         """
-        #JES Missing Code = R
-        #JES Missing Code = i
-        #JES Missing Code = name
+        # Assigning passed resistance value to the resistor's resistance property.
+        self.Resistance = R
+        # Assigning passed current value to the resistor's current property.
+        self.Current = i
+        # Assigning passed name to the resistor's name property, identifying the resistor by the nodes it connects.
+        self.Name = name
     #endregion
 
     #region methods/functions
