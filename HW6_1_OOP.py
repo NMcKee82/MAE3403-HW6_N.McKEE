@@ -58,7 +58,7 @@ class ResistorNetwork():
         """
         R = Resistor()  # Instantiate a new resistor object with default parameters.
         N += 1  # <Resistor> was detected, so move to next line in Txt
-        txt = #JES MISSING code  # retrieve line from Txt and make it lower case using Txt[N].lower()
+        txt = Txt[N].lower().strip()  # Convert the line to lowercase and remove leading/trailing spaces
         while "resistor" not in txt:
             if "name" in txt:
                 txt.split('=')[1].strip()  # Extracts and assigns the resistor's name from the file.
@@ -123,7 +123,7 @@ class ResistorNetwork():
         :return: a list of the currents in the resistor network
         """
         # need to set the currents to that Kirchoff's laws are satisfied
-        i0 = #JES MISSING CODE  #define an initial guess for the currents in the circuit
+        i0 = [1.0, 1.0, 1.0]  # Initial guess for the currents, assuming there are three currents to solve for
         i = fsolve(self.GetKirchoffVals,i0)
         # print output to the screen
         print("I1 = {:0.1f}".format(i[0]))

@@ -1,5 +1,6 @@
 #region imports
 from scipy.optimize import fsolve
+from HW6_1_OOP import Resistor, VoltageSource, Loop
 #endregion
 
 #region class definitions
@@ -16,6 +17,34 @@ class ResistorNetwork():
         self.Resistors = []  # initialize an empty a list of resistor objects in the network
         self.VSources = []  # initialize an empty a list of source objects in the network
     #endregion
+
+class ResistorNetwork2(ResistorNetwork):
+    def __init__(self):
+        """
+        Initialize the ResistorNetwork2 object. This calls the constructor of the superclass (ResistorNetwork)
+        to ensure all the initialization done there is also applied here.
+        """
+        super().__init__()  # Call the superclass constructor to initialize inherited properties
+
+    # Example of an overridden method
+    def AnalyzeCircuit(self):
+        """
+        Override the AnalyzeCircuit method to implement a different analysis strategy or to extend the existing one.
+        """
+        # You could call the superclass method with super().AnalyzeCircuit() if you want to include its behavior.
+        # Or you can define a new behavior specific to this subclass.
+        print("Analyze circuit with modified approach in ResistorNetwork2.")
+        # Assuming the method to solve the network remains largely the same,
+        # but ensuring the updated network components are considered.
+        super().AnalyzeCircuit()  # Optionally include original behavior if still relevant
+
+    # Example of a new method specific to ResistorNetwork2
+    def NewMethodSpecificToResistorNetwork2(self):
+        """
+        This is an example of a method that is specific to the ResistorNetwork2 class and does not exist in the ResistorNetwork class.
+        """
+        pass  # Implement the functionality here
+
 
     #region methods/functions
     def BuildNetworkFromFile(self, filename):
@@ -123,7 +152,8 @@ class ResistorNetwork():
         :return: a list of the currents in the resistor network
         """
         # need to set the currents to that Kirchoff's laws are satisfied
-        i0 = #JES MISSING CODE  #define an initial guess for the currents in the circuit
+
+        i0 = [1.0, 1.0, 1.0]  # Initial guess for the currents, assuming there are three currents to solve for
         i = fsolve(self.GetKirchoffVals,i0)
         # print output to the screen
         print("I1 = {:0.1f}".format(i[0]))
@@ -258,7 +288,7 @@ def main():
     """
     Net = ResistorNetwork()  # Instantiate a resistor network object to start building the circuit.
     Net.BuildNetworkFromFile("ResistorNetwork_2.txt")  # Load the modified network configuration from the updated text file.
-    IVals = Net.AnalyzeCircuit()
+    ivals = Net.AnalyzeCircuit()
 # endregion
 
 # region function calls
