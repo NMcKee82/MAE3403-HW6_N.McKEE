@@ -56,14 +56,14 @@ class ResistorNetwork():
         :param Txt: [string] the lines of the text file
         :return: a resistor object
         """
-        R = #JES MISSING CODE  # instantiate a new resistor object
+        R = Resistor()  # Instantiate a new resistor object with default parameters.
         N += 1  # <Resistor> was detected, so move to next line in Txt
         txt = #JES MISSING code  # retrieve line from Txt and make it lower case using Txt[N].lower()
         while "resistor" not in txt:
             if "name" in txt:
-                R.Name = #JES MISSING CODE
+                txt.split('=')[1].strip()  # Extracts and assigns the resistor's name from the file.
             if "resistance" in txt:
-                R.Resistance = #JES MISSING CODE
+                R.Resistance = float(txt.split('=')[1].strip())  # Extracts and assigns the resistor's resistance value from the file.
             N+=1
             txt=Txt[N].lower()
 
@@ -256,8 +256,8 @@ def main():
     This program solves for the unknown currents in the circuit of the homework assignment.
     :return: nothing
     """
-    Net =  # JES MISSING CODE  #Instantiate a resistor network object
-    Net.  # JES MISSING CODE #call the function from Net that builds the resistor network from a text file
+    Net = ResistorNetwork()  # Instantiate a resistor network object to start building the circuit.
+    Net.BuildNetworkFromFile("ResistorNetwork_2.txt")  # Load the modified network configuration from the updated text file.
     IVals = Net.AnalyzeCircuit()
 # endregion
 
