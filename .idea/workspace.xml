@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6533e1ea-ecd1-4357-9f02-6ea8cfcd2cb6" name="Changes" comment="Working through changing code and debugging">
-      <change afterPath="$PROJECT_DIR$/HW2_2_OOP_R2.py" afterDir="false" />
+    <list default="true" id="6533e1ea-ecd1-4357-9f02-6ea8cfcd2cb6" name="Changes" comment="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HW6_2_OOP.py" beforeDir="false" afterPath="$PROJECT_DIR$/HW6_2_OOP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HW_2_OOP_R1.py" beforeDir="false" afterPath="$PROJECT_DIR$/HW_2_OOP_R1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rankine.py" beforeDir="false" afterPath="$PROJECT_DIR$/rankine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/steam.py" beforeDir="false" afterPath="$PROJECT_DIR$/steam.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_rankine.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_rankine.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +44,7 @@
     "Python.HW6_1_OOP.executor": "Run",
     "Python.HW6_2_OOP.executor": "Debug",
     "Python.HW_2_OOP_R1.executor": "Debug",
+    "Python.test_rankine.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -56,6 +57,7 @@
       <recent name="C:\Users\nmckee\PycharmProjects\MAE3403_SP24_HW6_N.MCKEE" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nmckee\PycharmProjects\MAE3403_SP24_HW6_N.MCKEE\Fails" />
       <recent name="C:\Users\nmckee\PycharmProjects\MAE3403_SP24_HW6_N.MCKEE" />
     </key>
   </component>
@@ -139,7 +141,31 @@
       <option name="project" value="LOCAL" />
       <updated>1710116735555</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Work on Problem 2, organize failed attempts">
+      <option name="closed" value="true" />
+      <created>1710118815375</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710118815375</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Upload resources for Problem 3">
+      <option name="closed" value="true" />
+      <created>1710118840550</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1710118840550</updated>
+    </task>
+    <task id="LOCAL-00011" summary="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py">
+      <option name="closed" value="true" />
+      <created>1710120718102</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1710120718102</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -151,6 +177,9 @@
     <MESSAGE value="Added HW+6_2_OOP.py stem file to project" />
     <MESSAGE value="Made changes and added missing code to the FLuid, Pipe and PipeNetwork Classes" />
     <MESSAGE value="Working through changing code and debugging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working through changing code and debugging" />
+    <MESSAGE value="Work on Problem 2, organize failed attempts" />
+    <MESSAGE value="Upload resources for Problem 3" />
+    <MESSAGE value="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py" />
   </component>
 </project>

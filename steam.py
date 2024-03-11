@@ -1,14 +1,15 @@
-class SteamProperties:
+# steam.py
+import numpy as np
+
+class SteamTable:
     def __init__(self):
-        # Placeholder for initializing steam table data
+        self.sat_table = np.loadtxt('sat_water_table.txt', skiprows=1)
+        self.superheat_table = np.loadtxt('superheated_water_table.txt', skiprows=1)
+
+    def get_sat_property(self, pressure, property_name):
+        # Implement property lookup and interpolation for saturated steam
         pass
 
-    @staticmethod
-    def get_saturated_properties(pressure):
-        # Placeholder for retrieving saturated steam properties based on pressure
-        return {'hf': 0, 'hg': 0, 'sf': 0, 'sg': 0, 'vf': 0, 'vg': 0}
-
-    @staticmethod
-    def get_superheated_properties(pressure, temperature):
-        # Placeholder for retrieving superheated steam properties based on pressure and temperature
-        return {'h': 0, 's': 0}
+    def get_superheat_property(self, pressure, temperature, property_name):
+        # Implement property lookup and interpolation for superheated steam
+        pass
