@@ -90,13 +90,15 @@ class ResistorNetwork2(ResistorNetwork):
         txt = Txt[N].lower().strip()  # Convert the line to lowercase and remove leading/trailing spaces
         while "resistor" not in txt:
             if "name" in txt:
-                txt.split('=')[1].strip()  # Extracts and assigns the resistor's name from the file.
+                R.Name = txt.split('=')[1].strip()  # Extracts and assigns the resistor's name from the file.
             if "resistance" in txt:
                 R.Resistance = float(txt.split('=')[1].strip())  # Extracts and assigns the resistor's resistance value from the file.
             N+=1
-            txt=Txt[N].lower()
+            if N >= len(Txt): break  # Avoid index out of range
+            txt = Txt[N].lower().strip()
 
         self.Resistors.append(R)  # append the resistor object to the list of resistors
+        print(f"Added Resistor: {R.Name} with Resistance: {R.Resistance}")
         return N
 
     def MakeVSource (self, N, Txt):
@@ -221,13 +223,15 @@ class ResistorNetwork2(ResistorNetwork):
 
     def GetResistorByName(self, name):
         """
-        A way to retrieve a resistor object from self.Resistors based on resistor name
-        :param name:
-        :return:
+        A way to retrieve a resistor object from self.Resistors based on resistor name.
+        :param name: The name of the resistor to find.
+        :return: The resistor object with the specified name, or None if not found.
         """
         for r in self.Resistors:
-            if r.Name == name:
+            if r.Name.lower() == name.lower():
                 return r
+        print(f"Warning: Resistor named '{name}' not found.")
+        return None
     #endregion
 
 class Loop():
@@ -286,9 +290,15 @@ def main():
     This program solves for the unknown currents in the circuit of the homework assignment.
     :return: nothing
     """
-    Net = ResistorNetwork()  # Instantiate a resistor network object to start building the circuit.
-    Net.BuildNetworkFromFile("ResistorNetwork_2.txt")  # Load the modified network configuration from the updated text file.
+    Net = ResistorNetwork2()  # Instantiate a ResistorNetwork2 object instead
+    Net.BuildNetworkFromFile(
+        "ResistorNetwork_2.txt")  # This should now correctly refer to an instance of ResistorNetwork2
     ivals = Net.AnalyzeCircuit()
+
+    # After calling BuildNetworkFromFile in the main function
+    for resistor in Net.Resistors:
+        print(resistor.Name)
+
 # endregion
 
 # region function calls
