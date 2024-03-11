@@ -1,6 +1,6 @@
 #region imports
 from scipy.optimize import fsolve
-from HW6_1_OOP import Resistor, VoltageSource, Loop
+from Fails.HW6_1_OOP import Resistor, VoltageSource, Loop
 #endregion
 
 #region class definitions
@@ -163,32 +163,44 @@ class ResistorNetwork2(ResistorNetwork):
         print("I3 = {:0.1f}".format(i[2]))
         return i
 
-    def GetKirchoffVals(self,i):
+    def GetKirchoffVals(self, i):
         """
-        This function uses Kirchoff Voltage and Current laws to analyze this specific circuit
-        KVL:  The net voltage drop for a closed loop in a circuit should be zero
-        KCL:  The net current flow into a node in a circuit should be zero
-        :param i: a list of currents relevant to the circuit
-        :return: a list of loop voltage drops and node currents
+        This function uses Kirchoff Voltage and Current laws to analyze this specific circuit.
+        KVL: The net voltage drop for a closed loop in a circuit should be zero.
+        KCL: The net current flow into a node in a circuit should be zero.
+        :param i: a list of currents relevant to the circuit.
+        :return: a list of loop voltage drops and node currents.
         """
-        # set current in resistors in the top loop.
-        self.GetResistorByName('ad').Current=i[0]  #I_1 in diagram
-        self.GetResistorByName('bc').Current=i[0]  #I_1 in diagram
-        self.GetResistorByName('cd').Current=i[2]  #I_3 in diagram
-        #set current in resistor in bottom loop.
-        self.GetResistorByName('ce').Current=i[1]  #I_2 in diagram
-        #calculate net current into node c
-        Node_c_Current = sum([i[0],i[1],-i[2]])
 
-        KVL = self.GetLoopVoltageDrops()  # two equations here
-        KVL.append(Node_c_Current)  # one equation here
+        resistors = ['ad', 'bc', 'cd', 'ce']  # List of resistors to set currents for
+        currents = [i[0], i[0], i[2], i[1]]  # Corresponding currents for each resistor
+        error_found = False
+
+        for resistor_name, current in zip(resistors, currents):
+            resistor = self.GetResistorByName(resistor_name)
+            if resistor is not None:
+                resistor.Current = current
+            else:
+                print(f"Error: Resistor '{resistor_name}' not found.")
+                error_found = True  # Mark that an error was found
+
+        # If an error was found, handle it appropriately
+        if error_found:
+            print("One or more errors were found in processing the resistors.")
+            return None  # Or handle the error differently
+
+        # Calculate net current into node c and continue with KVL calculation
+        Node_c_Current = sum([i[0], i[1], -i[2]])
+        KVL = self.GetLoopVoltageDrops()  # Get the voltage drops for the loops
+        KVL.append(Node_c_Current)  # Add the net current equation for node c
+
         return KVL
 
     def GetElementDeltaV(self, name):
         """
         Need to retrieve either a resistor or a voltage source by name.
-        :param name:
-        :return:
+        :param name: The name of the element to find.
+        :return: The voltage change across the element, or None if not found.
         """
         for r in self.Resistors:
             if name == r.Name:
@@ -200,6 +212,10 @@ class ResistorNetwork2(ResistorNetwork):
                 return v.Voltage
             if name[::-1] == v.Name:
                 return v.Voltage
+
+        # If the element is not found, print a warning and return None
+        print(f"Warning: Element named '{name}' not found.")
+        return None
 
     def GetLoopVoltageDrops(self):
         """

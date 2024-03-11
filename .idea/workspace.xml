@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6533e1ea-ecd1-4357-9f02-6ea8cfcd2cb6" name="Changes" comment="corrected output reports to provide two examples of rankine objects and each rankine cycle as reported in the rankine_stem.py example.&#10;&#10;Added proper documentation to the code via docstrings &#10;&#10;add regions for organization">
+    <list default="true" id="6533e1ea-ecd1-4357-9f02-6ea8cfcd2cb6" name="Changes" comment="Working through debugging the program for Problem 1 **WORK IN PROGRESS**">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HW6_1_2_OOP.py" beforeDir="false" afterPath="$PROJECT_DIR$/HW6_1_2_OOP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HW6_1_OOP.py" beforeDir="false" afterPath="$PROJECT_DIR$/Fails/HW6_1_OOP.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710122780904</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Working through debugging the program for Problem 1 **WORK IN PROGRESS**">
+      <option name="closed" value="true" />
+      <created>1710128378383</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1710128378383</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -205,6 +214,7 @@
     <MESSAGE value="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py" />
     <MESSAGE value="working on code, added code to write reports based on the rankine_stem file--work in progress" />
     <MESSAGE value="corrected output reports to provide two examples of rankine objects and each rankine cycle as reported in the rankine_stem.py example.&#10;&#10;Added proper documentation to the code via docstrings &#10;&#10;add regions for organization" />
-    <option name="LAST_COMMIT_MESSAGE" value="corrected output reports to provide two examples of rankine objects and each rankine cycle as reported in the rankine_stem.py example.&#10;&#10;Added proper documentation to the code via docstrings &#10;&#10;add regions for organization" />
+    <MESSAGE value="Working through debugging the program for Problem 1 **WORK IN PROGRESS**" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working through debugging the program for Problem 1 **WORK IN PROGRESS**" />
   </component>
 </project>
