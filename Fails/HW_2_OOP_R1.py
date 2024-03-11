@@ -58,7 +58,7 @@ class Node():
     #endregion
 class Loop():
     #region constructor
-    def __init__(self, Name='A', Pipes=[]):
+    def __init__(self, Name='A', Pipes=[], pipe_network=None):
         '''
         Defines a loop in a pipe network.  Note: the pipes must be listed in order.  The traversal of a pipe loop
         will begin at the start node of Pipe[0] and move in the positive direction of that pipe.  Hence, loops
@@ -66,8 +66,9 @@ class Loop():
         :param Name: name of the loop
         :param Pipes: a list/array of pipes in this loop
         '''
-        self.name=Name
-        self.pipes=Pipes
+        self.name = Name
+        self.pipes = Pipes
+        self.pipe_network = pipe_network  # Keep reference to the PipeNetwork instance
     #endregion
 
     #region methods/functions
@@ -76,13 +77,15 @@ class Loop():
         Calculates the net head loss as I traverse around the loop, in m of fluid.
         :return:
         '''
-        deltaP=0 #initialize to zero
-        startNode=self.pipes[0].startNode #begin at the start node of the first pipe
-        for p in self.pipes:
-            # calculates the head loss in the pipe considering loop traversal and flow directions
-            phl=p.getFlowHeadLoss(startNode)
-            deltaP+=phl
-            startNode=p.endNode if startNode!=p.endNode else p.startNode #move to the next node
+        deltaP = 0
+        startNode = self.pipe_network.getPipe(self.pipes[0]).startNode
+        for pipe_name in self.pipes:
+            p = self.pipe_network.getPipe(pipe_name)
+            if p is None:
+                raise ValueError(f'Pipe {pipe_name} does not exist in the network.')
+            phl = p.getFlowHeadLoss(startNode)
+            deltaP += phl
+            startNode = p.endNode if startNode != p.endNode else p.startNode
         return deltaP
     #endregion
 class Pipe():
@@ -162,20 +165,20 @@ class Pipe():
         if Re <= 2000:
             return 64 / Re
         elif Re >= 4000:
-            # Correct indentation for the definition of the CB function
+            # Use NumPy functions for array compatibility
             def CB(f):
-                return 1 / math.sqrt(f) + 2.0 * np.log10(
-                    self.roughness / (3.7 * self.diameter) + 2.51 / (Re * math.sqrt(f)))
+                return 1 / np.sqrt(f) + 2.0 * np.log10(
+                    self.roughness / (3.7 * self.diameter) + 2.51 / (Re * np.sqrt(f)))
 
             f_turbulent, = fsolve(CB, 0.02)
             return f_turbulent
         else:
             # Transitional flow, assuming linear interpolation between laminar and turbulent
             f_laminar = 64 / Re
-
+            # Use NumPy functions for array compatibility
             def CB(f):
-                return 1 / math.sqrt(f) + 2.0 * np.log10(
-                    self.roughness / (3.7 * self.diameter) + 2.51 / (Re * math.sqrt(f)))
+                return 1 / np.sqrt(f) + 2.0 * np.log10(
+                    self.roughness / (3.7 * self.diameter) + 2.51 / (Re * np.sqrt(f)))
 
             f_turbulent, = fsolve(CB, 0.02)
             mu_f = f_laminar + (f_turbulent - f_laminar) * (Re - 2000) / 2000
@@ -413,11 +416,11 @@ def main():
     PN.getNode('f').extFlow = -15
     PN.getNode('h').extFlow = -15
 
-    # Define Loops with the pipes involved
+    # Define Loops with the pipes involved and pass the PN instance to them
     loops = [
-        Loop('A', [PN.getPipe('a-b'), PN.getPipe('b-e'), PN.getPipe('e-d'), PN.getPipe('d-c'), PN.getPipe('c-a')]),
-        Loop('B', [PN.getPipe('c-d'), PN.getPipe('d-g'), PN.getPipe('g-f'), PN.getPipe('f-c')]),
-        Loop('C', [PN.getPipe('d-e'), PN.getPipe('e-h'), PN.getPipe('h-g'), PN.getPipe('g-d')])
+        Loop('A', ['a-b', 'b-e', 'e-d', 'd-c', 'c-a'], pipe_network=PN),
+        Loop('B', ['c-d', 'd-g', 'g-f', 'f-c'], pipe_network=PN),
+        Loop('C', ['d-e', 'e-h', 'h-g', 'g-d'], pipe_network=PN)
     ]
 
     # Add loops to the PipeNetwork
