@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6533e1ea-ecd1-4357-9f02-6ea8cfcd2cb6" name="Changes" comment="working on code, added code to write reports based on the rankine_stem file--work in progress">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rankine.py" beforeDir="false" afterPath="$PROJECT_DIR$/rankine.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/steam.py" beforeDir="false" afterPath="$PROJECT_DIR$/steam.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_rankine.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_rankine.py" afterDir="false" />
@@ -43,6 +44,7 @@
     "Python.HW6_1_OOP.executor": "Run",
     "Python.HW6_2_OOP.executor": "Debug",
     "Python.HW_2_OOP_R1.executor": "Debug",
+    "Python.rankine.executor": "Debug",
     "Python.test_rankine.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -172,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710121397286</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="working on code, added code to write reports based on the rankine_stem file--work in progress">
+      <option name="closed" value="true" />
+      <created>1710121622724</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1710121622724</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

@@ -1,6 +1,9 @@
 # test_rankine.py
+#region Import
 from rankine import RankineCycle
+#endregion
 
+#region Main Function
 def main():
     cycle1 = RankineCycle(p_high=8000, p_low=10, name="Basic Saturated Steam Cycle")
     cycle1.calculate_cycle()
@@ -12,3 +15,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+#endregion
