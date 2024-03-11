@@ -1,6 +1,7 @@
 # rankine.py
 from steam import SteamTable
 
+
 class RankineCycle:
     def __init__(self, p_high, p_low, t_high=None, name="Rankine Cycle"):
         self.steam_table = SteamTable()
@@ -8,31 +9,29 @@ class RankineCycle:
         self.p_low = p_low
         self.t_high = t_high
         self.name = name
-        self.efficiency = None
-        self.turbine_work = 0  # Placeholder
-        self.pump_work = 0  # Placeholder
-        self.heat_added = 0  # Placeholder
-        # Initial state placeholders
-        self.state1 = None
-        self.state2 = None
-        self.state3 = None
-        self.state4 = None
+        self.efficiency = 0
+        self.turbine_work = 0
+        self.pump_work = 0
+        self.heat_added = 0
 
     def calculate_cycle(self):
-        # Use steam_table to get properties and calculate cycle efficiency
-        # Placeholder for actual calculation logic
-        self.efficiency = 0.4  # Example efficiency calculation
+        # Simplified cycle calculation
+        if self.t_high:
+            steam_props = self.steam_table.get_superheat_properties(self.p_high, self.t_high)
+            h1 = steam_props['h']
+        else:
+            steam_props = self.steam_table.get_sat_properties(self.p_high)
+            h1 = steam_props['hg']  # Saturated vapor enthalpy
+
+        # Assuming isentropic expansion and pump work
+        self.turbine_work = h1 - steam_props['hf']  # Simplified calculation
+        self.pump_work = 10  # Placeholder value
+        self.heat_added = h1 - steam_props['hf']  # Assuming only heating
+        self.efficiency = (self.turbine_work - self.pump_work) / self.heat_added
 
     def print_summary(self):
-        if self.efficiency is None:
-            self.calculate_cycle()
-        print('Cycle Summary for:', self.name)
-        print('\tEfficiency: {:.3f}%'.format(self.efficiency * 100))
-        print('\tTurbine Work: {:.3f} kJ/kg'.format(self.turbine_work))
-        print('\tPump Work: {:.3f} kJ/kg'.format(self.pump_work))
-        print('\tHeat Added: {:.3f} kJ/kg'.format(self.heat_added))
-        # Example state prints, replace with actual state details
-        # self.state1.print()
-        # self.state2.print()
-        # self.state3.print()
-        # self.state4.print()
+        print(f"Cycle Summary for: {self.name}")
+        print(f"\tEfficiency: {self.efficiency * 100:.2f}%")
+        print(f"\tTurbine Work: {self.turbine_work:.2f} kJ/kg")
+        print(f"\tPump Work: {self.pump_work:.2f} kJ/kg")
+        print(f"\tHeat Added: {self.heat_added:.2f} kJ/kg")

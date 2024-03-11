@@ -1,15 +1,11 @@
 # steam.py
-import numpy as np
-
+# Placeholder for simplicity, replace with actual lookup and interpolation from tables
 class SteamTable:
     def __init__(self):
-        self.sat_table = np.loadtxt('sat_water_table.txt', skiprows=1)
-        self.superheat_table = np.loadtxt('superheated_water_table.txt', skiprows=1)
-
-    def get_sat_property(self, pressure, property_name):
-        # Implement property lookup and interpolation for saturated steam
         pass
 
-    def get_superheat_property(self, pressure, temperature, property_name):
-        # Implement property lookup and interpolation for superheated steam
-        pass
+    def get_sat_properties(self, pressure):
+        return {'hf': 1000, 'hg': 2800, 'sf': 2, 'sg': 6}
+
+    def get_superheat_properties(self, pressure, temperature):
+        return {'h': 3000, 's': 7}

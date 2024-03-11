@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6533e1ea-ecd1-4357-9f02-6ea8cfcd2cb6" name="Changes" comment="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="6533e1ea-ecd1-4357-9f02-6ea8cfcd2cb6" name="Changes" comment="working on code, added code to write reports based on the rankine_stem file--work in progress">
       <change beforePath="$PROJECT_DIR$/rankine.py" beforeDir="false" afterPath="$PROJECT_DIR$/rankine.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/steam.py" beforeDir="false" afterPath="$PROJECT_DIR$/steam.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_rankine.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_rankine.py" afterDir="false" />
@@ -165,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710120718102</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="working on code, added code to write reports based on the rankine_stem file--work in progress">
+      <option name="closed" value="true" />
+      <created>1710121397286</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1710121397286</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -180,6 +187,7 @@
     <MESSAGE value="Work on Problem 2, organize failed attempts" />
     <MESSAGE value="Upload resources for Problem 3" />
     <MESSAGE value="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="working on code, initial states of code for the three separate files, steam.py, rankine.py, and test_rankine.py" />
+    <MESSAGE value="working on code, added code to write reports based on the rankine_stem file--work in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on code, added code to write reports based on the rankine_stem file--work in progress" />
   </component>
 </project>
