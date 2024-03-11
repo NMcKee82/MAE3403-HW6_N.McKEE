@@ -26,6 +26,7 @@ class ResistorNetwork2(ResistorNetwork):
         """
         super().__init__()  # Call the superclass constructor to initialize inherited properties
 
+    # Example of an overridden method
     def AnalyzeCircuit(self):
         """
         Use fsolve to find currents in the resistor network.
@@ -168,7 +169,7 @@ class ResistorNetwork2(ResistorNetwork):
         """
         # need to set the currents to that Kirchoff's laws are satisfied
 
-        i0 = [1.0, 1.0, 1.0]  # Initial guess for the currents, assuming there are three currents to solve for
+        i0 = [1.0, 1.0, 1.0, 1.0]  # Initial guess for the currents in 4 loops
         i = fsolve(self.GetKirchoffVals,i0)
         # print output to the screen
         print("I1 = {:0.1f}".format(i[0]))
@@ -178,36 +179,31 @@ class ResistorNetwork2(ResistorNetwork):
 
     def GetKirchoffVals(self, i):
         """
-        This function uses Kirchoff Voltage and Current laws to analyze this specific circuit.
-        KVL: The net voltage drop for a closed loop in a circuit should be zero.
-        KCL: The net current flow into a node in a circuit should be zero.
-        :param i: a list of currents relevant to the circuit.
-        :return: a list of loop voltage drops and node currents.
-        """
+            Calculate the sums of voltage drops around each closed loop and the net currents at each node in the circuit using Kirchhoff's laws.
+            Kirchhoff's Voltage Law (KVL) is used to ensure the sum of all voltages around a loop equals zero. For each loop, the voltage contributed by the voltage source is added, and the voltage drops across resistors (product of current and resistance) are subtracted. The sign convention assumes that current flows from higher to lower potential.
+            Kirchhoff's Current Law (KCL) is applied at each node, where the sum of currents entering a node is set equal to the sum of currents leaving the node. Currents entering the node are considered positive, and currents leaving are negative.
+            Parameters:
+            i (list): An array of currents where i[n] is the current for the nth loop.
 
-        resistors = ['ad', 'bc', 'cd', 'ce']  # List of resistors to set currents for
-        currents = [i[0], i[0], i[2], i[1]]  # Corresponding currents for each resistor
-        error_found = False
+            Returns:
+            list: The sums of voltages for each loop based on KVL and the net currents for each node based on KCL, which fsolve will attempt to make zero.
+            """
+        # KVL Equations for each loop
+        KVL1 = 16 - (i[0] * 2) - (i[0] - i[1]) * 1  # 16V - I1*R_ad - (I1-I2)*R_cd
+        KVL2 = (i[1] - i[0]) * 1 + (i[1] - i[2]) * 4 - (i[1] * 2)  # (I2-I1)*R_cd + (I2-I3)*R_ce - I2*R_bc
+        KVL3 = 32 - (i[2] * 5) - (i[2] - i[1]) * 4  # 32V - I3*R_de - (I3-I2)*R_ce
 
-        for resistor_name, current in zip(resistors, currents):
-            resistor = self.GetResistorByName(resistor_name)
-            if resistor is not None:
-                resistor.Current = current
-            else:
-                print(f"Error: Resistor '{resistor_name}' not found.")
-                error_found = True  # Mark that an error was found
+        # KCL Equations for each node, assuming the node at the top is A, going clockwise, B, C, D, and E at the bottom.
+        # Assuming currents entering the node are positive and leaving are negative.
+        KCL_A = i[0]  # Only I1 leaves node A
+        KCL_B = -i[0] + i[1]  # I1 enters node B, I2 leaves
+        KCL_C = 0  # Node C is a junction between R_cd, R_bc, and R_ce, so currents should cancel out
+        KCL_D = i[0] - i[1] - i[2]  # I1 enters, I2 and I3 leave node D
+        KCL_E = i[2]  # Only I3 enters node E
 
-        # If an error was found, handle it appropriately
-        if error_found:
-            print("One or more errors were found in processing the resistors.")
-            return None  # Or handle the error differently
+        # The return should be a list of equations that fsolve will attempt to make zero
+        return [KVL1, KVL2, KVL3, KCL_A, KCL_B, KCL_C, KCL_D, KCL_E]
 
-        # Calculate net current into node c and continue with KVL calculation
-        Node_c_Current = sum([i[0], i[1], -i[2]])
-        KVL = self.GetLoopVoltageDrops()  # Get the voltage drops for the loops
-        KVL.append(Node_c_Current)  # Add the net current equation for node c
-
-        return KVL
 
     def GetElementDeltaV(self, name):
         """
